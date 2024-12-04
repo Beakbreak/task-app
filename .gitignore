@@ -43,3 +43,6 @@ Thumbs.db
 
 # json
 package-lock.json
+
+# environment
+.env
