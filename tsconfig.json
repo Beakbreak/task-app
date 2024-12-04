@@ -13,7 +13,8 @@
       "@models/*": ["src/app/models/*"],
       "@guards/*": ["src/app/guards/*"],
       "@data/*": ["src/app/data/*"],
-      "@pipes/*": ["src/app/pipes/*"]
+      "@pipes/*": ["src/app/pipes/*"],
+      "@adapters/*": ["src/app/adapters/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,
