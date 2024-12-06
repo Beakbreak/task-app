@@ -14,25 +14,25 @@ export class TaskService {
   private readonly API_URL = `${API_URL}task`;
   http = inject(HttpClient);
 
-  createTask(task: Omit<ITask, 'id'>): Observable<void> {
+  public createTask(task: Omit<ITask, 'id'>): Observable<void> {
     return this.http.post<void>(this.API_URL, task);
   }
 
-  getAllTasks(): Observable<ITask[]> {
+  public getAllTasks(): Observable<ITask[]> {
     return this.http.get<ITaskInfoAll>(this.API_URL).pipe(map(info => TaskAdapter(info)));
   }
 
-  getTaskById(id: string): Observable<ITask> {
+  public getTaskById(id: string): Observable<ITask> {
     const url = `${this.API_URL}${id}`;
     return this.http.get<ITaskInfoOne>(url).pipe(map(info => TaskAdapterOne(info)));
   }
 
-  updateTask(task: ITask): Observable<void> {
+  public updateTask(task: ITask): Observable<void> {
     const url = `${this.API_URL}${task.id}`;
     return this.http.put<void>(url, task);
   }
 
-  deleteTask(id: string): Observable<void> {
+  public deleteTask(id: string): Observable<void> {
     const url = `${this.API_URL}${id}`;
     return this.http.delete<void>(url);
   }
