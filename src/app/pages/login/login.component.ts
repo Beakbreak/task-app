@@ -44,6 +44,15 @@ export class LoginPage {
           this.redirectToDashboard();
         }
       },
+      error: error => {
+        if (error.error.error === 'email not found') {
+          this.email?.setErrors({ customError: true });
+        }
+        if (error.error.error === 'incorrect Password') {
+          this.password?.setErrors({ customError: true });
+        }
+        this.AuthForm.setErrors({ invalid: true });
+      },
     });
   }
 

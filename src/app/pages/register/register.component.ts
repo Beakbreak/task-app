@@ -56,13 +56,19 @@ export class RegisterPage {
   }
 
   public submitRegisterForm() {
-    this.authService.signIn(this.RegisterForm.value).subscribe({
+    this.authService.signUp(this.RegisterForm.value).subscribe({
       next: resp => {
         if (resp) {
           this.authService.saveToken(resp);
           this.authService.setAuthenticate();
           this.redirectToDashboard();
         }
+      },
+      error: error => {
+        if (error.error.error.includes('duplicate key error')) {
+          this.email?.setErrors({ customError: true });
+        }
+        this.RegisterForm.setErrors({ invalid: true });
       },
     });
   }

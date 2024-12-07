@@ -12,6 +12,7 @@
           type="text"
           class="form-control"
           formControlName="name"
+          minlength="15"
           [class.is-invalid]="name?.invalid && name?.touched"
           placeholder="Jhon" />
         <label for="floatingName">Name</label>
@@ -33,6 +34,7 @@
           type="text"
           class="form-control"
           formControlName="lastName"
+          minlength="15"
           [class.is-invalid]="lastName?.invalid && lastName?.touched"
           placeholder="Smitt" />
         <label for="floatingLastName">lastName</label>
@@ -54,6 +56,7 @@
           type="text"
           class="form-control"
           formControlName="userName"
+          minlength="15"
           [class.is-invalid]="userName?.invalid && userName?.touched"
           placeholder="Aanttrax" />
         <label for="floatingUserName">userName</label>
@@ -86,6 +89,9 @@
           }
           @if (email?.errors?.['email']) {
             <span>* Email not valid </span>
+          }
+          @if (email?.errors?.['customError']) {
+            <span>* Email already used </span>
           }
         </div>
       }
