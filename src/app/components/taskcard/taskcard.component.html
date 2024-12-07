@@ -1,0 +1,25 @@
+@let taskLocal = task();
+@if (taskLocal) {
+  <article class="d-flex flex-column w-100 m-auto p-2" style="max-width: 600px; min-width: 330px">
+    <button
+      class="btn btn-primary d-flex"
+      type="button"
+      data-bs-toggle="collapse"
+      [attr.data-bs-target]="'#' + taskLocal._id"
+      aria-expanded="false"
+      aria-controls="collapseTask">
+      <span
+        class="rounded-circle bg-white d-inline-block text-center border"
+        [class.bg-transparent]="!taskLocal.done"
+        [class.border-white]="taskLocal.done"
+        style="width: 24px; height: 24px; line-height: 24px; font-size: 0.8rem">
+      </span>
+      <span class="mx-3">{{ taskLocal.title }}</span>
+    </button>
+    <div class="collapse" [id]="taskLocal._id">
+      <div class="card card-body text-white">
+        {{ taskLocal.description }}
+      </div>
+    </div>
+  </article>
+}

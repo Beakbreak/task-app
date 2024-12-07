@@ -14,7 +14,8 @@
       "@guards/*": ["src/app/guards/*"],
       "@data/*": ["src/app/data/*"],
       "@pipes/*": ["src/app/pipes/*"],
-      "@adapters/*": ["src/app/adapters/*"]
+      "@adapters/*": ["src/app/adapters/*"],
+      "@interceptors/*": ["src/app/interceptors/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

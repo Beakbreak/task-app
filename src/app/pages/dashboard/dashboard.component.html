@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+@if (tasks$ | async; as tasks) {
+  <main
+    class="d-flex flex-column align-items-center justify-content-center py-4 bg-body-tertiary"
+    style="height: 100%"
+    data-bs-theme="dark"
+    data-lt-installed="true">
+    <article class="w-100">
+      @for (task of tasks; track task._id) {
+        <app-taskcard [task]="task" />
+      }
+    </article>
+  </main>
+}
