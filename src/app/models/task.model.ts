@@ -1,5 +1,5 @@
 export interface ITask {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   done: boolean;
@@ -18,7 +18,7 @@ export interface ITaskInfoOne extends ITaskInfo {
 }
 
 export const emptyTask = {
-  id: '',
+  _id: '',
   title: '',
   description: '',
   done: false,
