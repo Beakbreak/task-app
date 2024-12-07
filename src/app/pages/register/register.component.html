@@ -1,0 +1,151 @@
+<body
+  class="d-flex align-items-center py-4 bg-body-tertiary"
+  style="height: 100%"
+  data-bs-theme="dark"
+  data-lt-installed="true">
+  <main class="w-100 m-auto" style="max-width: 330px; padding: 1rem">
+    <form [formGroup]="RegisterForm" (ngSubmit)="submitRegisterForm()">
+      <h1 class="h3 mb-3 fw-normal">Please Register</h1>
+      <div class="form-floating my-2">
+        <input
+          id="floatingName"
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [class.is-invalid]="name?.invalid && name?.touched"
+          placeholder="Jhon" />
+        <label for="floatingName">Name</label>
+      </div>
+      @if (name?.invalid && name?.touched) {
+        <div class="text-danger">
+          @if (name?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (name?.errors?.['minlength']) {
+            <span>* Required more characters</span>
+          }
+        </div>
+      }
+
+      <div class="form-floating my-2">
+        <input
+          id="floatingLastName"
+          type="text"
+          class="form-control"
+          formControlName="lastName"
+          [class.is-invalid]="lastName?.invalid && lastName?.touched"
+          placeholder="Smitt" />
+        <label for="floatingLastName">lastName</label>
+      </div>
+      @if (lastName?.invalid && lastName?.touched) {
+        <div class="text-danger">
+          @if (lastName?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (lastName?.errors?.['minlength']) {
+            <span>* Required more characters</span>
+          }
+        </div>
+      }
+
+      <div class="form-floating my-2">
+        <input
+          id="floatingUserName"
+          type="text"
+          class="form-control"
+          formControlName="userName"
+          [class.is-invalid]="userName?.invalid && userName?.touched"
+          placeholder="Aanttrax" />
+        <label for="floatingUserName">userName</label>
+      </div>
+      @if (userName?.invalid && userName?.touched) {
+        <div class="text-danger">
+          @if (userName?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (userName?.errors?.['minlength']) {
+            <span>* Required more characters</span>
+          }
+        </div>
+      }
+
+      <div class="form-floating my-2">
+        <input
+          id="floatingEmail"
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [class.is-invalid]="email?.invalid && email?.touched"
+          placeholder="name@example.com" />
+        <label for="floatingEmail">Email address</label>
+      </div>
+      @if (email?.invalid && email?.touched) {
+        <div class="text-danger">
+          @if (email?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (email?.errors?.['email']) {
+            <span>* Email not valid </span>
+          }
+        </div>
+      }
+      <div class="form-floating my-2">
+        <input
+          formControlName="password"
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          placeholder="Password"
+          [class.is-invalid]="password?.invalid && password?.touched" />
+        <label for="floatingPassword">Password</label>
+      </div>
+      @if (password?.invalid && password?.touched) {
+        <div class="text-danger">
+          @if (password?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (password?.errors?.['minlength']) {
+            <span>* Required more characters</span>
+          }
+        </div>
+      }
+
+      <div class="form-floating my-2">
+        <input
+          formControlName="verifyPassword"
+          type="password"
+          class="form-control"
+          id="floatingVerifyPassword"
+          placeholder="verifyPassword"
+          [class.is-invalid]="verifyPassword?.invalid && verifyPassword?.touched" />
+        <label for="floatingVerifyPassword">verifyPassword</label>
+      </div>
+      @if (verifyPassword?.invalid && verifyPassword?.touched) {
+        <div class="text-danger">
+          @if (verifyPassword?.errors?.['required']) {
+            <span>* Required field</span>
+          }
+          @if (verifyPassword?.errors?.['mismatch']) {
+            <span>* Password doesn't match</span>
+          }
+        </div>
+      }
+      <button [disabled]="RegisterForm.invalid" class="btn btn-primary w-100 py-2" type="submit">
+        Sign in
+      </button>
+      <div class="my-2 text-center">
+        <p>
+          ¿Ya tienes una cuenta?&nbsp;<span
+            class="text-primary"
+            style="cursor: pointer"
+            tabindex="0"
+            (click)="redirectToLogin()"
+            (keydown.enter)="redirectToLogin()"
+            (keydown.space)="redirectToLogin()"
+            >Return to Login</span
+          >
+        </p>
+      </div>
+    </form>
+  </main>
+</body>

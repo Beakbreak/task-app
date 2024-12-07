@@ -1,8 +1,9 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { AuthAdapter } from '@adapters/auth.adapter';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '@envs/environment';
 import { IAuthInfo, ISignIn, ISignUp } from '@models/auth.model';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 const { API_URL } = environment;
 
@@ -16,18 +17,22 @@ export class AuthService {
 
   http = inject(HttpClient);
 
-  public signUp(signUp: ISignUp): Observable<HttpResponse<IAuthInfo>> {
+  public signUp(signUp: ISignUp): Observable<string> {
     const url = `${this.API_URL}signup`;
-    return this.http.post<IAuthInfo>(url, signUp, {
-      observe: 'response',
-    });
+    return this.http
+      .post<IAuthInfo>(url, signUp, {
+        observe: 'response',
+      })
+      .pipe(map(info => AuthAdapter(info)));
   }
 
-  public signIn(signIn: ISignIn): Observable<HttpResponse<IAuthInfo>> {
+  public signIn(signIn: ISignIn): Observable<string> {
     const url = `${this.API_URL}signin`;
-    return this.http.post<IAuthInfo>(url, signIn, {
-      observe: 'response',
-    });
+    return this.http
+      .post<IAuthInfo>(url, signIn, {
+        observe: 'response',
+      })
+      .pipe(map(info => AuthAdapter(info)));
   }
 
   public setAuthenticate(): void {
