@@ -1,0 +1,85 @@
+name: Build and Push Angular Image to GHCR, and Deploy GithubPages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build and push to GHCR
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from VERSION file
+        id: get-version
+        run: |
+          if [ -f VERSION ]; then
+            VERSION=$(cat VERSION)
+          else
+            echo "VERSION file not found. Exiting..."
+            exit 1
+          fi
+          echo "Current version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Login GHCR
+        run: |
+          docker login --username Aanttrax --password ${{ secrets.GH_PT }} ghcr.io
+
+      - name: Tag Docker and build image with semantic version
+        run: |
+          docker build . \
+            --build-arg NG_APP_API_URL=$NG_APP_API_URL \
+          -t ghcr.io/aanttrax/task-app:${{ steps.get-version.outputs.version }}
+        env:
+          NG_APP_API_URL: ${{ secrets.NG_APP_API_URL}}
+
+      - name: Push Docker image to GHCR
+        run: |
+          docker push ghcr.io/aanttrax/task-app:${{ steps.get-version.outputs.version }}
+
+  deploy:
+    name: Build and deploy to GITHUBPAGES
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get version from VERSION file
+        id: get-version
+        run: |
+          if [ -f VERSION ]; then
+            VERSION=$(cat VERSION)
+          else
+            echo "VERSION file not found. Exiting..."
+            exit 1
+          fi
+          echo "Current version: $VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Modify Base Href
+        run: |
+          sed -i 's/RUN ng build/RUN ng build --base-href="\/task-app\/" --deploy-url="\/task-app\/"/' Dockerfile
+
+      - name: Tag Docker and build image with semantic version
+        run: |
+          docker build . \
+            --build-arg NG_APP_API_URL=$NG_APP_API_URL \
+          -t task-app:${{ steps.get-version.outputs.version }}
+
+      - name: Extract Content from Image
+        run: |
+          container_id=$(docker create task-app:${{ steps.get-version.outputs.version }})
+          docker cp $container_id:/usr/share/nginx/html ./public
+          docker rm $container_id
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: public/html
