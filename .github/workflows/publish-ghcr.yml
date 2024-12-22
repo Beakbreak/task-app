@@ -72,6 +72,8 @@ jobs:
           docker build . \
             --build-arg NG_APP_API_URL=$NG_APP_API_URL \
           -t task-app:${{ steps.get-version.outputs.version }}
+        env:
+          NG_APP_API_URL: ${{ secrets.NG_APP_API_URL}}
 
       - name: Extract Content from Image
         run: |
