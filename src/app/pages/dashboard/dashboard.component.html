@@ -1,113 +1,112 @@
-@if (tasks$ | async; as tasks) {
-  <main
-    class="d-flex flex-column align-items-center justify-content-center py-4 bg-body-tertiary"
-    style="min-height: 100vh; height: auto"
-    data-bs-theme="dark"
-    data-lt-installed="true">
-    <h1 class="text-white">Tasks</h1>
-    <article class="w-100">
-      @for (task of tasks; track task._id) {
-        <app-taskcard
-          [task]="task"
-          (editTask)="editTask($event)"
-          (toChangeStatus)="toChangeStatus($event)" />
-      }
-    </article>
-    <button
-      class="btn btn-outline-primary mx-auto w-100 m-2"
-      data-bs-toggle="modal"
-      data-bs-target="#staticBackdrop"
-      style="max-width: 600px; min-width: 330px">
-      + Create new task
-    </button>
-    <!-- Modal -->
-    <div
-      #staticBackdrop
-      class="modal fade"
-      id="staticBackdrop"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            @if (update()) {
-              <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Update Task</h1>
-            } @else {
-              <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">New Task</h1>
+<main
+  class="d-flex flex-column align-items-center justify-content-center py-4 bg-body-tertiary"
+  style="min-height: 100vh; height: auto"
+  data-bs-theme="dark"
+  data-lt-installed="true">
+  <h1 class="text-white">Tasks</h1>
+  <article class="w-100">
+    @for (task of tasks(); track task._id) {
+      <app-taskcard
+        [task]="task"
+        (editTask)="editTask($event)"
+        (toChangeStatus)="toChangeStatus($event)"
+        (toDeleteTask)="toDeleteTask($event)" />
+    }
+  </article>
+  <button
+    class="btn btn-outline-primary mx-auto w-100 m-2"
+    data-bs-toggle="modal"
+    data-bs-target="#staticBackdrop"
+    style="max-width: 600px; min-width: 330px">
+    + Create new task
+  </button>
+  <!-- Modal -->
+  <div
+    #staticBackdrop
+    class="modal fade"
+    id="staticBackdrop"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="staticBackdropLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          @if (update()) {
+            <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">Update Task</h1>
+          } @else {
+            <h1 class="modal-title fs-5 text-white" id="staticBackdropLabel">New Task</h1>
+          }
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            (click)="close()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="createUpdateForm" (ngSubmit)="submitCreateUpdateForm()">
+            <div class="form-floating my-2">
+              <input
+                id="floatingInput"
+                type="email"
+                class="form-control text-white"
+                formControlName="title"
+                [class.is-invalid]="title?.invalid && title?.touched"
+                placeholder="name@example.com" />
+              <label class="text-secondary-emphasis" for="floatingInput">Title Task</label>
+            </div>
+            @if (title?.invalid && title?.touched) {
+              <div class="text-danger">
+                @if (title?.errors?.['required']) {
+                  <span>* Required field</span>
+                }
+                @if (title?.errors?.['minlength']) {
+                  <span>* Required more characters</span>
+                }
+              </div>
             }
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-              (click)="close()"></button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="createUpdateForm" (ngSubmit)="submitCreateUpdateForm()">
-              <div class="form-floating my-2">
-                <input
-                  id="floatingInput"
-                  type="email"
-                  class="form-control text-white"
-                  formControlName="title"
-                  [class.is-invalid]="title?.invalid && title?.touched"
-                  placeholder="name@example.com" />
-                <label class="text-secondary-emphasis" for="floatingInput">Title Task</label>
+            <div class="form-floating my-2">
+              <input
+                formControlName="description"
+                type="text"
+                class="form-control text-white"
+                id="floatingDescription"
+                placeholder="Description"
+                [class.is-invalid]="description?.invalid && description?.touched" />
+              <label class="text-secondary-emphasis" for="floatingDescription">Description</label>
+            </div>
+            @if (description?.invalid && description?.touched) {
+              <div class="text-danger">
+                @if (description?.errors?.['required']) {
+                  <span>* Required field</span>
+                }
+                @if (description?.errors?.['minlength']) {
+                  <span>* Required more characters</span>
+                }
               </div>
-              @if (title?.invalid && title?.touched) {
-                <div class="text-danger">
-                  @if (title?.errors?.['required']) {
-                    <span>* Required field</span>
-                  }
-                  @if (title?.errors?.['minlength']) {
-                    <span>* Required more characters</span>
-                  }
-                </div>
-              }
-              <div class="form-floating my-2">
-                <input
-                  formControlName="description"
-                  type="text"
-                  class="form-control text-white"
-                  id="floatingDescription"
-                  placeholder="Description"
-                  [class.is-invalid]="description?.invalid && description?.touched" />
-                <label class="text-secondary-emphasis" for="floatingDescription">Description</label>
-              </div>
-              @if (description?.invalid && description?.touched) {
-                <div class="text-danger">
-                  @if (description?.errors?.['required']) {
-                    <span>* Required field</span>
-                  }
-                  @if (description?.errors?.['minlength']) {
-                    <span>* Required more characters</span>
-                  }
-                </div>
-              }
-              @if (update()) {
-                <button
-                  [disabled]="disabledUpdate()"
-                  data-bs-dismiss="modal"
-                  class="btn btn-primary w-100 py-2"
-                  type="submit">
-                  Update
-                </button>
-              } @else {
-                <button
-                  [disabled]="createUpdateForm.invalid"
-                  data-bs-dismiss="modal"
-                  class="btn btn-primary w-100 py-2"
-                  type="submit">
-                  Create
-                </button>
-              }
-            </form>
-          </div>
+            }
+            @if (update()) {
+              <button
+                [disabled]="disabledUpdate()"
+                data-bs-dismiss="modal"
+                class="btn btn-primary w-100 py-2"
+                type="submit">
+                Update
+              </button>
+            } @else {
+              <button
+                [disabled]="createUpdateForm.invalid"
+                data-bs-dismiss="modal"
+                class="btn btn-primary w-100 py-2"
+                type="submit">
+                Create
+              </button>
+            }
+          </form>
         </div>
       </div>
     </div>
-  </main>
-}
+  </div>
+</main>
