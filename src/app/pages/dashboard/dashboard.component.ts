@@ -18,6 +18,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,8 +32,10 @@ import {
 export class DashboardPage implements OnInit {
   staticBackdrop = viewChild.required<ElementRef>('staticBackdrop');
   private taskService = inject(TaskService);
+  private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
   private renderer = inject(Renderer2);
+  private router = inject(Router);
   public tasks = signal<ITask[]>([]);
   public update = signal<boolean>(false);
   public updateTask = signal<ITask>(emptyTask);
@@ -134,6 +138,12 @@ export class DashboardPage implements OnInit {
     toUpdate.done = this.updateTask().done;
     return JSON.stringify(toUpdate) === JSON.stringify(this.updateTask());
   }
+
+  exit() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
   get title(): AbstractControl | null {
     return this.createUpdateForm.get('title');
   }
