@@ -1,59 +1,65 @@
-# TaskApp
+# TaskApp Angular 19.0.2.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.2.
+<!-- ![Portfolio logo](./screenShot/screenshot1.webp) -->
 
-## Development server
+This task project is built with Angular 19 and demonstrates a fully functional task management system with user authentication. Users can create, update, and delete tasks through a modern and intuitive interface, while login and registration features ensure secure access. The project leverages Angular's latest features, such as standalone components and typed forms, alongside Botstrap for responsive and polished UI design.
 
-To start a local development server, run:
+Additionally, the project integrates CI/CD pipelines using GitHub Actions, automating build, test, and deployment workflows. Code quality is enforced through Husky and lint-staged pre-commit hooks. Deployed on GitHub Pages, this application showcases advanced Angular development practices combined with robust task management and authentication features. Visit the live demo at [Task Site](https://).
 
-```bash
-ng serve
-```
+## Screenshots
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+<!-- ![Screenshot 2](./screenShot/screenshot2.webp) -->
+<!-- ![Screenshot 3](./screenShot/screenshot3.webp) -->
+<!-- ![Screenshot 4](./screenShot/screenshot4.webp) -->
 
-## Code scaffolding
+## 🚀 Features
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- List of tasks.
+- Tasks details.
+- Create, Update, Delete tasks.
+- Login y Register with validations.
 
-```bash
-ng generate component component-name
-```
+## 📝 Requirements
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- [Node.js](https://nodejs.org/) installed on your system.
+- [Angular CLI](https://cli.angular.io/) installed globally.
 
-```bash
-ng generate --help
-```
+## 🛠️ Installation
 
-## Building
+Follow these steps to install and run the application:
 
-To build the project run:
+1.  Clone the repository:
 
-```bash
-ng build
-```
+    ```bash
+    git clone https://github.com/Aanttrax/task-app.git
+    ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+2.  Navigate to the project directory:
 
-## Running unit tests
+    ```bash
+    cd task-app
+    ```
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+3.  Install the dependencies:
 
-```bash
-ng test
-```
+    ```bash
+    npm install
+    ```
 
-## Running end-to-end tests
+4.  Start the application:
 
-For end-to-end (e2e) testing, run:
+    ```bash
+    npm start
+    ```
 
-```bash
-ng e2e
-```
+5.  Open your browser and go to http://localhost:4200/.
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 🤝 Contribution
 
-## Additional Resources
+If you want to contribute to this project, feel free to open issues and submit pull requests.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📬 Contact
+
+You can contact the project author at Arielrt20@gmail.com or Arielrt_@hotmail.com
+
+<!-- ng add @ngx-env/builder -->
