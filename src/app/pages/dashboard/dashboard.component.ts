@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +10,6 @@ import {
 } from '@angular/core';
 import { emptyTask, ITask } from '@models/task.model';
 import { TaskService } from '@services/task.service';
-import { Observable } from 'rxjs';
 import { TaskcardComponent } from '@components/taskcard/taskcard.component';
 import {
   AbstractControl,
@@ -23,18 +21,18 @@ import {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [AsyncPipe, TaskcardComponent, ReactiveFormsModule],
+  imports: [TaskcardComponent, ReactiveFormsModule],
   standalone: true,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPage implements OnInit {
+  staticBackdrop = viewChild.required<ElementRef>('staticBackdrop');
   private taskService = inject(TaskService);
   private formBuilder = inject(FormBuilder);
   private renderer = inject(Renderer2);
-  public tasks$!: Observable<ITask[]>;
-  staticBackdrop = viewChild.required<ElementRef>('staticBackdrop');
+  public tasks = signal<ITask[]>([]);
   public update = signal<boolean>(false);
   public updateTask = signal<ITask>(emptyTask);
 
@@ -49,39 +47,39 @@ export class DashboardPage implements OnInit {
   }
   public submitCreateUpdateForm() {
     if (this.update()) {
-      this.taskService
-        .updateTask(this.createUpdateForm.value)
-        .subscribe({
-          next: response => {
-            if (response.success) {
-              this.getTasks();
-            }
-          },
-        })
-        .add(() => {
+      this.taskService.updateTask(this.createUpdateForm.value).subscribe({
+        next: response => {
+          if (response.success) {
+            this.getTasks();
+          }
+        },
+        complete: () => {
           this.close();
-        });
+        },
+      });
     }
     if (!this.update()) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { _id, ...data } = this.createUpdateForm.value;
-      this.taskService
-        .createTask(data)
-        .subscribe({
-          next: response => {
-            if (response.success) {
-              this.getTasks();
-            }
-          },
-        })
-        .add(() => {
+      this.taskService.createTask(data).subscribe({
+        next: response => {
+          if (response.success) {
+            this.getTasks();
+          }
+        },
+        complete: () => {
           this.close();
-        });
+        },
+      });
     }
   }
 
-  private async getTasks() {
-    this.tasks$ = this.taskService.getAllTasks();
+  public getTasks() {
+    this.taskService.getAllTasks().subscribe({
+      next: response => {
+        this.tasks.set(response);
+      },
+    });
   }
 
   public close() {
@@ -118,9 +116,15 @@ export class DashboardPage implements OnInit {
           this.getTasks();
         }
       },
-      complete: () => {
-        console.log('entro');
-        this.getTasks();
+    });
+  }
+
+  public toDeleteTask(id: string) {
+    this.taskService.deleteTask(id).subscribe({
+      next: response => {
+        if (response.success) {
+          this.getTasks();
+        }
       },
     });
   }

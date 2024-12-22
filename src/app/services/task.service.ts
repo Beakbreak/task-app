@@ -31,7 +31,7 @@ export class TaskService {
   }
 
   public getTaskById(id: string): Observable<ITask> {
-    const url = `${this.API_URL}${id}`;
+    const url = `${this.API_URL}/${id}`;
     return this.http.get<ITaskInfoOne>(url).pipe(map(info => TaskAdapterOne(info)));
   }
 
@@ -40,8 +40,8 @@ export class TaskService {
     return this.http.put<ITaskCreateUpdate>(url, task, { headers: this.headers });
   }
 
-  public deleteTask(id: string): Observable<void> {
-    const url = `${this.API_URL}${id}`;
-    return this.http.delete<void>(url);
+  public deleteTask(id: string): Observable<ITaskCreateUpdate> {
+    const url = `${this.API_URL}/${id}`;
+    return this.http.delete<ITaskCreateUpdate>(url);
   }
 }
