@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { ITask } from '@models/task.model';
 
 @Component({
@@ -11,4 +11,13 @@ import { ITask } from '@models/task.model';
 })
 export class TaskcardComponent {
   public task = input.required<ITask>();
+  public editTask = output<ITask>();
+  public toChangeStatus = output<ITask>();
+
+  toEdit(task: ITask) {
+    this.editTask.emit(task);
+  }
+  changeStatus(task: ITask) {
+    this.toChangeStatus.emit(task);
+  }
 }

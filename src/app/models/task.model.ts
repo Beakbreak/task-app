@@ -17,6 +17,10 @@ export interface ITaskInfoOne extends ITaskInfo {
   response: ITask;
 }
 
+export interface ITaskCreateUpdate extends ITaskInfo {
+  response: string;
+}
+
 export const emptyTask = {
   _id: '',
   title: '',
