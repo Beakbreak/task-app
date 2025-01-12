@@ -19,6 +19,7 @@ export class AuthService {
 
   public signUp(signUp: ISignUp): Observable<string> {
     const url = `${this.API_URL}signup`;
+
     return this.http
       .post<IAuthInfo>(url, signUp, {
         observe: 'response',
@@ -27,7 +28,8 @@ export class AuthService {
   }
 
   public signIn(signIn: ISignIn): Observable<string> {
-    const url = `${this.API_URL}signin`;
+    const url = `${this.API_URL}api/login`;
+
     return this.http
       .post<IAuthInfo>(url, signIn, {
         observe: 'response',

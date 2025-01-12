@@ -36,9 +36,12 @@ export class LoginPage {
   }
 
   public submitAuthForm() {
-    this.authService.signIn(this.AuthForm.value).subscribe({
+    const formData = this.AuthForm.value;
+
+    this.authService.signIn(formData).subscribe({
       next: resp => {
         if (resp) {
+          console.log(resp)
           this.authService.saveToken(resp);
           this.authService.setAuthenticate();
           this.redirectToDashboard();
